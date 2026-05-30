@@ -1,15 +1,27 @@
-#include "chu_uart.h"
+#include <stdint.h>
+
+#include "chu_gpi.h"
+#include "chu_gpo.h"
 #include "chu_io_map.h"
 
-uart_core_t uart;
+gpo_core_t led_dev;
+gpi_core_t sw_dev;
 
 int main(void)
 {
-    uart_init(&uart, UART_BASE);
+    uint32_t sw_value;
 
-    while (1) {
+    // initialize peripherals
+    gpo_init(&led_dev, GPO_BASE_ADDR);
+    gpi_init(&sw_dev, GPI_BASE_ADDR);
 
-        uart_puts(&uart, "Hello from FPGA\r\n");
+    while (1)
+    {
+        // read GPIO input
+        sw_value = gpi_read(&sw_dev);
+
+        // write value to GPIO output
+        gpo_write(&led_dev, sw_value);
     }
 
     return 0;
