@@ -67,21 +67,16 @@ offset 8 |            CONTROL             |
 
 ## Register Summary
 
-| Offset | Register | Description |
-|--------|-----------|-------------|
-| 0x00 | TIMER_LOW | lower 32 bits of timer counter |
-| 0x04 | TIMER_HIGH | upper 16 bits of timer counter |
-| 0x08 | CONTROL | timer control register |
-
+| Offset | Register | Bits | Description |
+|--------|-----------|------|-------------|
+| 0x00 | TIMER_LOW | [31:0] | lower 32 bits of timer counter |
+| 0x04 | TIMER_HIGH | [15:0] | upper 16 bits of timer counter |
+| 0x08 | CONTROL | [0] | timer enable |
+| 0x08 | CONTROL | [1] | timer clear |
+| 0x08 | CONTROL | [31:2] | reserved |
 ---
 
-## Control Register Bit Fields
 
-| Bit | Name | Description |
-|-----|------|-------------|
-| 0 | TIMER_EN | timer enable |
-| 1 | TIMER_CLR | clear timer counter |
-| 31:2 | reserved | reserved |
 
 ---
 
