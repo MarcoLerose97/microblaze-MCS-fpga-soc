@@ -31,6 +31,6 @@ rtl/
 - `top/` → top-level SoC integration
 - `mmio/` → memory-mapped peripheral subsystem
 - `slot_0_sys_timer/` → timer peripheral
-- `slot_1_uart/` → UART communication subsystem
+- `slot_1_uart/` → UART communication peripheral
 - `slot_2_gpo/` → general-purpose output peripheral
 - `slot_3_gpi/` → general-purpose input peripheral
