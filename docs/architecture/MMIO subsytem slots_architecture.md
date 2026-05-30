@@ -1,4 +1,4 @@
-# MMIO Subsystem Slot Architecture
+# MMIO Subsystem Slots Architecture
 
 The MMIO subsystem is organized in slots.
 
