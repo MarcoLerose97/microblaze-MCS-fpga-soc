@@ -2,28 +2,111 @@
 
 UART peripheral connected to the MMIO subsystem.
 
-## Features
+---
 
-- UART TX/RX communication
-- Memory-mapped interface
-- Configurable baud rate
-- FIFO-based communication
+## Function
 
-## RTL Modules
+The UART peripheral provides serial communication between
+the MicroBlaze CPU and external devices.
 
-- uart_core.vhd
-- uart_rx.vhd
-- uart_tx.vhd
-- baud_gen.vhd
+The peripheral supports:
+
+- UART transmit
+- UART receive
+- Baud rate configuration
+- RX FIFO status monitoring
+- TX FIFO status monitoring
+
+---
 
 ## MMIO Slot
 
-Current slot:
 - slot_1_uart
 
+---
+
+## RTL Modules
+
+- `uart_core.vhd`
+- `uart_tx.vhd`
+- `uart_rx.vhd`
+- `baud_gen.vhd`
+- `fifo.vhd`
+
+---
 
 ## Software Driver
 
-Software driver:
-- chu_uart.c
-- chu_uart.h
+- `chu_uart.c`
+- `chu_uart.h`
+
+---
+
+## Base Address
+
+```text
+UART_BASE_ADDR = 0xC0000080
+```
+
+---
+
+## Register Map
+
+```text
+offset 0 : RX data and status register (read)
+
+         31                10 9          8 7              0
+         +------------------+-------------+----------------+
+         |     reserved     | TX_FULL     | RX_DATA[7:0]  |
+         +------------------+-------------+----------------+
+
+
+offset 1 : Baud divisor register (write)
+
+         31                             11 10             0
+         +--------------------------------+----------------+
+         |            reserved            | DVSR[10:0]     |
+         +--------------------------------+----------------+
+
+
+offset 2 : TX data register (write)
+
+         31                             8 7               0
+         +--------------------------------+----------------+
+         |            reserved            | TX_DATA[7:0]  |
+         +--------------------------------+----------------+
+
+
+offset 3 : RX removal register (write)
+
+         31                                              0
+         +------------------------------------------------+
+         |               dummy write pulse                |
+         +------------------------------------------------+
+```
+
+---
+
+## Register Summary
+
+| Offset | Register | Bits | Description |
+|--------|-----------|------|-------------|
+| 0x00 | RX_STATUS | [7:0] | received UART byte |
+| 0x00 | RX_STATUS | [8] | RX FIFO empty flag |
+| 0x00 | RX_STATUS | [9] | TX FIFO full flag |
+| 0x00 | RX_STATUS | [31:10] | reserved |
+| 0x04 | BAUD_DIVISOR | [10:0] | baud rate divisor value |
+| 0x04 | BAUD_DIVISOR | [31:11] | reserved |
+| 0x08 | TX_DATA | [7:0] | transmitted UART byte |
+| 0x08 | TX_DATA | [31:8] | reserved |
+| 0x0C | RX_POP | [31:0] | dummy write used to remove RX FIFO data |
+
+---
+
+## Notes
+
+The UART peripheral uses separate read and write registers
+for clarity and simplified MMIO access.
+
+The RX removal register generates a pulse used to remove
+one byte from the receive FIFO buffer.
