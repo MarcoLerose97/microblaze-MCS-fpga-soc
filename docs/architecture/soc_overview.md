@@ -1,14 +1,11 @@
-# SoC Overview
+## Subsystems
 
-The system is based on a MicroBlaze soft-core processor connected
-to memory-mapped peripherals through a custom MMIO controller.
+The SoC is organized into two main subsystems:
 
-The MMIO subsystem is designed to be modular and scalable up to 64 peripherals.
+- MMIO subsystem
+- VideoCore subsystem
 
-Main components:
-- MicroBlaze CPU
-- MMIO controller
-- UART peripheral
-- GPIO input peripheral
-- GPIO output peripheral
-- Timer peripheral
+The MMIO subsystem handles memory-mapped peripherals such as UART,
+GPIO and timers.
+
+The VideoCore subsystem is dedicated to video processing and display-related logic.
