@@ -37,4 +37,4 @@ Future modules may include:
 
 ## Top-Level Architecture
 
-![SoC architecture](../images/soc_top_level.png)
+![SoC architecture](../images/soc_top_level.jpg)
