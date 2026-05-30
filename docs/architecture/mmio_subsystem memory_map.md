@@ -1,4 +1,4 @@
-# Memory Map
+# MMIO Subsystem Memory Map
 
 | Peripheral | Base Address |
 |------------|--------------|
