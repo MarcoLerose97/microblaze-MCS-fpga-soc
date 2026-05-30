@@ -52,15 +52,15 @@ TIMER_BASE_ADDR = 0xC0000000
 offset 0 |       TIMER_LOW[31:0]         |
          +--------------------------------+
 
+         31             16 15           0
+         +----------------+--------------+
+offset 4 |    reserved    | TIMER_H[15:0]
+         +----------------+--------------+
+
          31                             0
          +--------------------------------+
-offset 4 |      TIMER_HIGH[31:0]         |
+offset 8 |            CONTROL             |
          +--------------------------------+
-
-         31                             2 1      0
-         +--------------------------------+--------+
-offset 8 |            reserved            |CTRL[1:0]
-         +--------------------------------+--------+
 ```
 
 ---
@@ -70,27 +70,25 @@ offset 8 |            reserved            |CTRL[1:0]
 | Offset | Register | Description |
 |--------|-----------|-------------|
 | 0x00 | TIMER_LOW | lower 32 bits of timer counter |
-| 0x04 | TIMER_HIGH | upper 32 bits of timer counter |
-| 0x08 | CTRL | timer control register |
+| 0x04 | TIMER_HIGH | upper 16 bits of timer counter |
+| 0x08 | CONTROL | timer control register |
 
 ---
 
 ## Control Register Bit Fields
 
-### CTRL Register (offset 0x08)
-
 | Bit | Name | Description |
 |-----|------|-------------|
 | 0 | TIMER_EN | timer enable |
-| 1 | TIMER_CLR | clears timer counter |
+| 1 | TIMER_CLR | clear timer counter |
 | 31:2 | reserved | reserved |
 
 ---
 
 ## Notes
 
-The timer is part of the MMIO peripheral subsystem and operates
-synchronously with the system clock.
+The timer peripheral is synchronous with the main system clock.
 
-The counter value can be accessed through two 32-bit registers
-to support extended timer width.
+The timer counter is implemented as a 48-bit counter split across:
+- 32-bit low register
+- 16-bit high register
