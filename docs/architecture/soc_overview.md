@@ -11,4 +11,4 @@ The VideoCore subsystem is dedicated to video processing and display-related mod
 
 ## Top-Level Architecture
 
-![SoC architecture](../images/soc_top_level.png)
+![SoC architecture](../images/soc_top_level.jpg)
