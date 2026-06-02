@@ -2,171 +2,108 @@ library ieee;
 use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
 
-entity uart_core is
+entity uart is
+    generic(
+        DBIT   : integer := 8;
+        SB_TICK: integer := 16;
+        FIFO_W : integer := 4
+    );
     port(
         clk      : in  std_logic;
         reset    : in  std_logic;
-
-        wr_en    : in  std_logic;
-        wr_addr  : in  std_logic_vector(4 downto 0);
-        wr_data  : in  std_logic_vector(31 downto 0);
-
-        rd_addr  : in  std_logic_vector(4 downto 0);
-        rd_data  : out std_logic_vector(31 downto 0);
-
+        rd_uart  : in  std_logic;
+        wr_uart  : in  std_logic;
+        dvsr     : in  std_logic_vector(10 downto 0);
         rx       : in  std_logic;
+        w_data   : in  std_logic_vector(7 downto 0);
+        tx_full  : out std_logic;
+        rx_empty : out std_logic;
+        r_data   : out std_logic_vector(7 downto 0);
         tx       : out std_logic
     );
-end uart_core;
+end uart;
 
-architecture Behavioral of uart_core is
+architecture str_arch of uart is
 
-    signal s_tick : std_logic;
-
-    signal tx_start     : std_logic;
-    signal tx_done_tick : std_logic;
-
-    signal tx_fifo_wr    : std_logic;
-    signal tx_fifo_rd    : std_logic;
-    signal tx_fifo_empty : std_logic;
-    signal tx_fifo_full  : std_logic;
-    signal tx_fifo_data  : std_logic_vector(7 downto 0);
-
-    signal tx_busy_reg : std_logic := '0';
-
-    signal rx_done_tick  : std_logic;
-    signal rx_data       : std_logic_vector(7 downto 0);
-
-    signal rx_fifo_wr    : std_logic;
-    signal rx_fifo_rd    : std_logic;
-    signal rx_fifo_empty : std_logic;
-    signal rx_fifo_full  : std_logic;
-    signal rx_fifo_data  : std_logic_vector(7 downto 0);
+    signal tick              : std_logic;
+    signal rx_done_tick      : std_logic;
+    signal tx_done_tick      : std_logic;
+    signal tx_fifo_out       : std_logic_vector(7 downto 0);
+    signal rx_data_out       : std_logic_vector(7 downto 0);
+    signal tx_empty          : std_logic;
+    signal tx_fifo_not_empty : std_logic;
 
 begin
 
-    baud_unit : entity work.baud_gen
+    baud_gen_unit : entity work.baud_gen(arch)
         port map(
             clk   => clk,
             reset => reset,
-            tick  => s_tick
+            dvsr  => dvsr,
+            tick  => tick
         );
 
-    tx_fifo_unit : entity work.fifo
+    uart_rx_unit : entity work.uart_rx(arch)
         generic map(
-            DATA_WIDTH => 8,
-            ADDR_WIDTH => 4
+            DBIT    => DBIT,
+            SB_TICK => SB_TICK
         )
-        port map(
-            clk    => clk,
-            reset  => reset,
-            rd     => tx_fifo_rd,
-            wr     => tx_fifo_wr,
-            w_data => wr_data(7 downto 0),
-            empty  => tx_fifo_empty,
-            full   => tx_fifo_full,
-            r_data => tx_fifo_data
-        );
-
-    tx_unit : entity work.uart_tx
-        port map(
-            clk          => clk,
-            reset        => reset,
-            tx_start     => tx_start,
-            s_tick       => s_tick,
-            din          => tx_fifo_data,
-            tx_done_tick => tx_done_tick,
-            tx           => tx
-        );
-
-    rx_unit : entity work.uart_rx
         port map(
             clk          => clk,
             reset        => reset,
             rx           => rx,
-            s_tick       => s_tick,
+            s_tick       => tick,
             rx_done_tick => rx_done_tick,
-            dout         => rx_data
+            dout         => rx_data_out
         );
 
-    rx_fifo_unit : entity work.fifo
+    uart_tx_unit : entity work.uart_tx(arch)
         generic map(
-            DATA_WIDTH => 8,
-            ADDR_WIDTH => 4
+            DBIT    => DBIT,
+            SB_TICK => SB_TICK
+        )
+        port map(
+            clk          => clk,
+            reset        => reset,
+            tx_start     => tx_fifo_not_empty,
+            s_tick       => tick,
+            din          => tx_fifo_out,
+            tx_done_tick => tx_done_tick,
+            tx           => tx
+        );
+
+    fifo_rx_unit : entity work.fifo(reg_file_arch)
+        generic map(
+            DATA_WIDTH => DBIT,
+            ADDR_WIDTH => FIFO_W
         )
         port map(
             clk    => clk,
             reset  => reset,
-            rd     => rx_fifo_rd,
-            wr     => rx_fifo_wr,
-            w_data => rx_data,
-            empty  => rx_fifo_empty,
-            full   => rx_fifo_full,
-            r_data => rx_fifo_data
+            rd     => rd_uart,
+            wr     => rx_done_tick,
+            w_data => rx_data_out,
+            empty  => rx_empty,
+            full   => open,
+            r_data => r_data
         );
 
-    -- offset 2: write TX byte into TX FIFO
-    tx_fifo_wr <= '1' when wr_en = '1' and wr_addr = "00010" and tx_fifo_full = '0'
-                  else '0';
+    fifo_tx_unit : entity work.fifo(reg_file_arch)
+        generic map(
+            DATA_WIDTH => DBIT,
+            ADDR_WIDTH => FIFO_W
+        )
+        port map(
+            clk    => clk,
+            reset  => reset,
+            rd     => tx_done_tick,
+            wr     => wr_uart,
+            w_data => w_data,
+            empty  => tx_empty,
+            full   => tx_full,
+            r_data => tx_fifo_out
+        );
 
-    -- start TX when UART is idle and TX FIFO has data
-    tx_start <= '1' when tx_busy_reg = '0' and tx_fifo_empty = '0'
-                else '0';
+    tx_fifo_not_empty <= not tx_empty;
 
-    -- pop TX FIFO when transmission starts
-    tx_fifo_rd <= tx_start;
-
-    -- push RX byte into RX FIFO when a byte is received
-    rx_fifo_wr <= '1' when rx_done_tick = '1' and rx_fifo_full = '0'
-                  else '0';
-
-    -- offset 3: CPU reads/pops RX FIFO
-    rx_fifo_rd <= '1' when rd_addr = "00011" and rx_fifo_empty = '0'
-                  else '0';
-
-    process(clk, reset)
-    begin
-        if reset = '1' then
-            tx_busy_reg <= '0';
-
-        elsif rising_edge(clk) then
-            if tx_start = '1' then
-                tx_busy_reg <= '1';
-
-            elsif tx_done_tick = '1' then
-                tx_busy_reg <= '0';
-            end if;
-        end if;
-    end process;
-
-    process(rd_addr, tx_busy_reg, tx_fifo_empty, tx_fifo_full,
-            rx_fifo_empty, rx_fifo_full, rx_fifo_data)
-    begin
-        rd_data <= (others => '0');
-
-        case rd_addr is
-
-            -- offset 0: status register
-            -- bit 0 = tx_busy
-            -- bit 1 = tx_fifo_empty
-            -- bit 2 = tx_fifo_full
-            -- bit 3 = rx_fifo_empty
-            -- bit 4 = rx_fifo_full
-            when "00000" =>
-                rd_data(0) <= tx_busy_reg;
-                rd_data(1) <= tx_fifo_empty;
-                rd_data(2) <= tx_fifo_full;
-                rd_data(3) <= rx_fifo_empty;
-                rd_data(4) <= rx_fifo_full;
-
-            -- offset 3: RX data register
-            when "00011" =>
-                rd_data(7 downto 0) <= rx_fifo_data;
-
-            when others =>
-                rd_data <= (others => '0');
-
-        end case;
-    end process;
-
-end Behavioral;
+end str_arch;
