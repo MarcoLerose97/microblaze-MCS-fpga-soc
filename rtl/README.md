@@ -5,6 +5,10 @@ rtl/
 ├── top/
 │   └── top_soc.vhd
 │
+│── bridge/
+│   └── chu_mcs_bridge.vhd
+│
+│
 └── mmio/
     ├── chu_io_map.vhd
     ├── chu_mmio_controller.vhd
