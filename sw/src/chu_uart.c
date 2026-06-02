@@ -1,56 +1,76 @@
 #include "chu_uart.h"
 #include "chu_io_rw.h"
 
-#define UART_STATUS_REG 0u
-#define UART_TX_REG     2u
-#define UART_RX_REG     3u
-
-#define UART_TX_BUSY_BIT       0u
-#define UART_TX_EMPTY_BIT      1u
-#define UART_TX_FULL_BIT       2u
-#define UART_RX_EMPTY_BIT      3u
-#define UART_RX_FULL_BIT       4u
-
 void uart_init(uart_core_t *dev, uint32_t base_addr)
 {
     dev->base_addr = base_addr;
 }
 
-uint32_t uart_status(uart_core_t *dev)
+/*
+ * baud generator:
+ * tick frequency = baud_rate * 16
+ *
+ * dvsr = sys_clk_hz / (baud_rate * 16) - 1
+ *
+ * Example 100 MHz, 115200:
+ * dvsr = 100000000 / (115200*16) - 1
+ *      = 53.25 -> use 54 circa, or integer 53 depending rounding.
+ */
+void uart_set_baud_rate(uart_core_t *dev, uint32_t sys_clk_hz, uint32_t baud_rate)
 {
-    return io_read(dev->base_addr, UART_STATUS_REG);
+    uint32_t dvsr;
+
+    dvsr = (sys_clk_hz / (baud_rate * 16u)) - 1u;
+
+    io_write(dev->base_addr, UART_DVSR_REG, dvsr);
 }
 
-int uart_tx_fifo_full(uart_core_t *dev)
+uint32_t uart_read_status(uart_core_t *dev)
 {
-    return (uart_status(dev) >> UART_TX_FULL_BIT) & 1u;
+    return io_read(dev->base_addr, 0u);
 }
 
-int uart_rx_fifo_empty(uart_core_t *dev)
+uint8_t uart_rx_empty(uart_core_t *dev)
 {
-    return (uart_status(dev) >> UART_RX_EMPTY_BIT) & 1u;
+    return (uart_read_status(dev) & UART_RX_EMPTY_MASK) ? 1u : 0u;
 }
 
-void uart_putc(uart_core_t *dev, char c)
+uint8_t uart_tx_full(uart_core_t *dev)
 {
-    while (uart_tx_fifo_full(dev)) {
+    return (uart_read_status(dev) & UART_TX_FULL_MASK) ? 1u : 0u;
+}
+
+void uart_write_byte(uart_core_t *dev, uint8_t data)
+{
+    while (uart_tx_full(dev)) {
     }
 
-    io_write(dev->base_addr, UART_TX_REG, (uint32_t)c);
+    io_write(dev->base_addr, UART_TX_REG, (uint32_t)data);
 }
 
-void uart_puts(uart_core_t *dev, const char *s)
+uint8_t uart_read_byte(uart_core_t *dev)
 {
-    while (*s) {
-        uart_putc(dev, *s++);
+    uint32_t status;
+    uint8_t data;
+
+    while (uart_rx_empty(dev)) {
     }
+
+    status = uart_read_status(dev);
+    data = (uint8_t)(status & UART_RX_DATA_MASK);
+
+    /*
+     * Dummy write to remove one byte from RX FIFO.
+     */
+    io_write(dev->base_addr, UART_RX_REMOVE_REG, 0u);
+
+    return data;
 }
 
-int uart_getc(uart_core_t *dev)
+void uart_write_string(uart_core_t *dev, const char *s)
 {
-    if (uart_rx_fifo_empty(dev)) {
-        return -1;
+    while (*s != '\0') {
+        uart_write_byte(dev, (uint8_t)(*s));
+        s++;
     }
-
-    return (int)(io_read(dev->base_addr, UART_RX_REG) & 0xFFu);
 }
