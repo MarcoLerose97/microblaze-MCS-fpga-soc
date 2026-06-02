@@ -4,8 +4,8 @@ use ieee.numeric_std.all;
 
 entity uart_rx is
     generic(
-        DBIT    : integer := 8;
-        SB_TICK : integer := 16
+        DBIT    : integer := 8;  -- # data bits
+        SB_TICK : integer := 16  -- # ticks for stop bits
     );
     port(
         clk          : in  std_logic;
@@ -17,17 +17,29 @@ entity uart_rx is
     );
 end uart_rx;
 
-architecture Behavioral of uart_rx is
-
+architecture arch of uart_rx is
     type state_type is (idle, start, data, stop);
-
     signal state_reg, state_next : state_type;
-    signal s_reg, s_next         : unsigned(3 downto 0);
+    signal s_reg, s_next         : unsigned(4 downto 0);
     signal n_reg, n_next         : unsigned(2 downto 0);
     signal b_reg, b_next         : std_logic_vector(7 downto 0);
-
+    signal sync1_reg : std_logic;
+    signal sync2_reg : std_logic;
+    signal sync_rx   : std_logic;
 begin
-
+    -- synchronization for rx
+    process(clk, reset)
+    begin
+        if reset = '1' then
+            sync1_reg <= '0';
+            sync2_reg <= '0';
+        elsif rising_edge(clk) then
+            sync1_reg <= rx;
+            sync2_reg <= sync1_reg;
+        end if;
+    end process;
+    sync_rx <= sync2_reg;
+   -- FSMD state and data registers
     process(clk, reset)
     begin
         if reset = '1' then
@@ -35,7 +47,6 @@ begin
             s_reg     <= (others => '0');
             n_reg     <= (others => '0');
             b_reg     <= (others => '0');
-
         elsif rising_edge(clk) then
             state_reg <= state_next;
             s_reg     <= s_next;
@@ -43,23 +54,22 @@ begin
             b_reg     <= b_next;
         end if;
     end process;
-
-    process(state_reg, s_reg, n_reg, b_reg, rx, s_tick)
+    -- next state logic and data path
+    process(state_reg, s_reg, n_reg, b_reg, s_tick, sync_rx)
     begin
         state_next   <= state_reg;
         s_next       <= s_reg;
         n_next       <= n_reg;
         b_next       <= b_reg;
         rx_done_tick <= '0';
-
         case state_reg is
-
+        
             when idle =>
-                if rx = '0' then
+                if sync_rx = '0' then
                     state_next <= start;
                     s_next     <= (others => '0');
                 end if;
-
+                
             when start =>
                 if s_tick = '1' then
                     if s_reg = 7 then
@@ -75,9 +85,9 @@ begin
                 if s_tick = '1' then
                     if s_reg = 15 then
                         s_next <= (others => '0');
-                        b_next <= rx & b_reg(7 downto 1);
+                        b_next <= sync_rx & b_reg(7 downto 1);
 
-                        if n_reg = DBIT - 1 then
+                        if n_reg = (DBIT - 1) then
                             state_next <= stop;
                         else
                             n_next <= n_reg + 1;
@@ -89,17 +99,14 @@ begin
 
             when stop =>
                 if s_tick = '1' then
-                    if s_reg = SB_TICK - 1 then
+                    if s_reg = (SB_TICK - 1) then
                         state_next   <= idle;
                         rx_done_tick <= '1';
                     else
                         s_next <= s_reg + 1;
                     end if;
                 end if;
-
         end case;
     end process;
-
     dout <= b_reg;
-
-end Behavioral;
+end arch;
