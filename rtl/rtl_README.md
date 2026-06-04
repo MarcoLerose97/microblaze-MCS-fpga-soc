@@ -3,7 +3,7 @@
 ```text
 rtl/
 ├── top/
-│   ├── mcs_top_vanilla.vhd
+│   └── mcs_top_vanilla.vhd
 │           │        
 │           ├── bridge/
 │           │   └── chu_mcs_bridge.vhd
