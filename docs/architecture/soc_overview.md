@@ -1,6 +1,6 @@
 # SoC Overview
 
-The system is based on a MicroBlaze MCS soft-core processor subsystem (comprising a MicroBlaze CPU and an I/O module) integrated into a custom FPGA-based SoC architecture
+The system is based on a MicroBlaze MCS soft-core processor subsystem (comprising a MicroBlaze CPU and an I/O module) integrated into a custom FPGA-based SoC architecture.
 
 The processor communicates with internal hardware modules through a vendor proprietary IP bus.
 
