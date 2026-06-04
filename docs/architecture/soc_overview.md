@@ -2,7 +2,7 @@
 
 The system is based on a MicroBlaze MCS soft-core processor subsystem (comprising a MicroBlaze CPU and an I/O module) integrated into a custom FPGA-based SoC architecture.
 
-The processor communicates with internal hardware modules through a vendor proprietary IP bus.
+The processor communicates with internal hardware modules through a vendor proprietary IP bus (MCS I/O Bus) .
 
 A bridge module converts the processor-side bus transactions into a simplified internal MMIO-oriented bus used by the peripheral subsystem.
 
