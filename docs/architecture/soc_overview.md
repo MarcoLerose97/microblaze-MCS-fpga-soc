@@ -26,14 +26,8 @@ The architecture supports up to 64 peripheral slots, each exposing up to 32 memo
 
 ## VideoCore Subsystem
 
-The VideoCore subsystem is dedicated to video generation and display-related processing modules.
+The VideoCore subsystem will be dedicated to video generation and display-related processing modules.
 
-Future modules may include:
-
-- frame buffer controller
-- sprite engine
-- video RAM interface
-- VGA/HDMI timing generators
 
 ## Top-Level Architecture
 
