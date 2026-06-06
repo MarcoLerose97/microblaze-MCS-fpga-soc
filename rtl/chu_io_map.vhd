@@ -11,4 +11,8 @@ package chu_io_map is
     constant S2_LED       : integer := 2;
     constant S3_SW        : integer := 3;
 
+    constant S5_PWM       : integer := 5;
+
+
+
 end package;
