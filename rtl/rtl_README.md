@@ -22,11 +22,11 @@ rtl/
 |               │
 │               ├── slot_1_uart/
 │               │   └── chu_uart.vhd
-│               │          └── uart.vhd
+│               │          └── uart_core.vhd
 │               │                 ├── uart_tx.vhd
 │               │                 ├── uart_rx.vhd
 │               │                 ├── baud_gen.vhd
-│               │                 ├── fifo.vhd
+│               │                 ├── fifo_core.vhd
 │               │                        ├── fifo_ctrl.vhd
 │               │                        └── reg_file.vhd
 │               ├── slot_2_gpo/
