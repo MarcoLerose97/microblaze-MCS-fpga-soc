@@ -12,7 +12,10 @@ entity mcs_top_vanilla is
       led      : out std_logic_vector(15 downto 0);
       -- uart
       rx       : in  std_logic;
-      tx       : out std_logic
+      tx       : out std_logic;
+      -- pwm
+      pwm_out  : out std_logic_vector(15 downto 0)
+ 
    );
 end mcs_top_vanilla;
 
@@ -110,7 +113,10 @@ begin
          sw           => sw,
          led          => led,
          rx           => rx,
-         tx           => tx
+         tx           => tx,
+         pwm_out      => pwm_out
       );
+
+end arch;
 
 end arch;
