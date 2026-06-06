@@ -33,7 +33,15 @@ rtl/
 │               │   └── chu_gpo.vhd
 │               │
 │               └── slot_3_gpi/
-│                   └── chu_gpi.vhd
+│               │     └── chu_gpi.vhd
+│               │
+│               │  
+│               │  
+│               │  
+│               │ ── slot_5_pwm/
+│               │       └── chu_pwm.vhd
+│               │ 
+
 ```
 
 ## Description
