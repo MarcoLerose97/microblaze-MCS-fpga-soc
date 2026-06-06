@@ -7,6 +7,7 @@ Custom FPGA SoC platform based on a MicroBlaze MCS soft-core processor.
 - Custom UART peripheral
 - Custom GPO peripheral
 - Custom GPI peripheral
+- Custom 16 Channels PWM peripheral
 - Memory mapped I/O
 - FIFO modules
 - Embedded software drivers
