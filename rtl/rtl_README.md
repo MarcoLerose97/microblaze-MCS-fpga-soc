@@ -14,33 +14,34 @@ rtl/
 │           └── mmio_sys_vanilla/
 |               │
 │               ├── (chu_io_map.vhd)
-│               │  
-│               ├── chu_mmio_controller.vhd
-|               |
-│               ├── slot_0_sys_timer/
-│               │   └── chu_timer.vhd
-|               │
-│               ├── slot_1_uart/
-│               │   └── chu_uart.vhd
-│               │          └── uart_core.vhd
-│               │                 ├── uart_tx.vhd
-│               │                 ├── uart_rx.vhd
-│               │                 ├── baud_gen.vhd
-│               │                 ├── fifo_core.vhd
-│               │                        ├── fifo_ctrl.vhd
-│               │                        └── reg_file.vhd
-│               ├── slot_2_gpo/
-│               │   └── chu_gpo.vhd
 │               │
-│               └── slot_3_gpi/
-│               │     └── chu_gpi.vhd
-│               │
-│               │  
-│               │  
-│               │  
-│               │ ── slot_5_pwm/
-│               │       └── chu_pwm.vhd
-│               │ 
+                └── mmio_sys_vanilla.vhd
+│                          ├── chu_mmio_controller.vhd
+|                          |
+│                          ├── slot_0_sys_timer/
+│                          │   └── chu_timer.vhd
+|                          │
+│                          ├── slot_1_uart/
+│                          │   └── chu_uart.vhd
+│                          │            └── uart_core.vhd
+│                          │                   ├── uart_tx.vhd
+│                          │                   ├── uart_rx.vhd
+│                          │                   ├── baud_gen.vhd
+│                          │                   ├── fifo_core.vhd
+│                          │                            ├── fifo_ctrl.vhd
+│                          │                            └── reg_file.vhd
+│                          ├── slot_2_gpo/
+│                          │   └── chu_gpo.vhd
+│                          │
+│                          └── slot_3_gpi/
+│                          │     └── chu_gpi.vhd
+│                          │
+│                          │  
+│                          │  
+│                          │  
+│                          │ ── slot_5_pwm/
+│                          │       └── chu_pwm.vhd
+│                          │ 
 
 ```
 
