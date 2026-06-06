@@ -62,7 +62,7 @@ The controller routes transactions to the selected slot according to the decoded
 
 ## Internal structure of MMIO subsystem
 
-![SoC architecture](../images/mmio_subsystem.jpg)
+![SoC architecture](../architecture/images/mmio_subsystem.jpg)
 
 
 
