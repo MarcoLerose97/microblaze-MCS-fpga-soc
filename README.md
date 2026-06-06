@@ -1,11 +1,12 @@
 # MicroBlaze FPGA SoC
 
-Custom FPGA SoC platform based on a MicroBlaze soft-core processor.
+Custom FPGA SoC platform based on a MicroBlaze MCS soft-core processor.
 
 ## Features
+- Custom 48 bit TIMER peripheral
 - Custom UART peripheral
-- GPIO controller
-- Timer peripheral
+- Custom GPO peripheral
+- Custom GPI peripheral
 - Memory mapped I/O
 - FIFO modules
 - Embedded software drivers
