@@ -31,4 +31,4 @@ The VideoCore subsystem will be dedicated to video generation and display-relate
 
 ## Top-Level Architecture (up to MMIO subsystem)
 
-![SoC architecture](../images/soc_top_level.jpg)
+![SoC architecture](../images/mcs_top_vanilla.jpg)
