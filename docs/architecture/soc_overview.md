@@ -29,6 +29,6 @@ The architecture supports up to 64 peripheral slots, each exposing up to 32 memo
 The VideoCore subsystem will be dedicated to video generation and display-related processing modules.
 
 
-## Top-Level Architecture (up to MMIO subsystem)
+## Top-Level Architecture 
 
 ![SoC architecture](../images/mcs_top_vanilla.jpg)
