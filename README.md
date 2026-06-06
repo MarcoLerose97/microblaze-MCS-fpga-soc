@@ -27,11 +27,3 @@ Work in progress.
 Additional peripherals and video subsystem support planned.
 
 
-## Documentation
-- [SoC overview](docs/architecture/soc_overview.md)
-- [MMIO memory map](docs/architecture/mmio_subsystem_memory_map.md)
-- [MMIO slot architecture](docs/architecture/mmio_subsystem_slots_architecture.md)
-- [UART peripheral](docs/peripherals/mmio_uart.md)
-- [Timer peripheral](docs/peripherals/mmio_timer.md)
-- [GPO peripheral](docs/peripherals/mmio_gpo.md)
-- [GPI peripheral](docs/peripherals/mmio_gpi.md)
