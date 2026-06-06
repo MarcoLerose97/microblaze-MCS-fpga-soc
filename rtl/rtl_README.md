@@ -52,3 +52,5 @@ rtl/
 - `slot_1_uart/` → UART communication peripheral
 - `slot_2_gpo/` → general-purpose output peripheral
 - `slot_3_gpi/` → general-purpose input peripheral
+
+- - `slot_5_pwm/` → pwm peripheral
