@@ -13,10 +13,12 @@ Custom FPGA SoC platform based on a MicroBlaze MCS soft-core processor.
 - Vivado FPGA project structure
 
 ## Repository structure
-- `/rtl` → VHDL RTL sources
-- `/sw` → embedded software sources
 - `/constraints` → FPGA pin constraints
 - `/docs` → project documentation
+- `/rtl` → VHDL RTL sources
+- `/sw` → embedded software sources
+
+
 
 ## Target FPGA
 - Digilent Basys3
