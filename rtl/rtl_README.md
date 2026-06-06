@@ -4,7 +4,10 @@
 rtl/
 ├── top/
 │   └── mcs_top_vanilla.vhd
-│           │        
+│           │
+│           ├── CPU (MicroBlaze MCS)
+│           │
+│           │
 │           ├── bridge/
 │           │   └── chu_mcs_bridge.vhd
 │           │
