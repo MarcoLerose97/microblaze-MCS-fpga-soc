@@ -70,7 +70,7 @@ The bridge forwards write data directly to the MMIO subsystem and routes periphe
 
 ---
 
-![SoC architecture](../architecture/images/MCS IO bus.jpg)
+![SoC architecture](../architecture/images/MCS_IO_bus.jpg)
 
 ## Signals Used in This Design
 
