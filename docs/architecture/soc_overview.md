@@ -70,6 +70,8 @@ The bridge forwards write data directly to the MMIO subsystem and routes periphe
 
 ---
 
+![SoC architecture](../architecture/images/MCS IO bus.jpg)
+
 ## Signals Used in This Design
 
 The bridge actively uses:
@@ -140,3 +142,5 @@ io_ready <= '1';
 and no wait-state or handshake logic is required.
 
 This simplifies both the bridge implementation and the peripheral interface.
+
+![SoC architecture](../architecture/images/FPro bus.jpg)
