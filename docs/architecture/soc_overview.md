@@ -143,4 +143,4 @@ and no wait-state or handshake logic is required.
 
 This simplifies both the bridge implementation and the peripheral interface.
 
-![SoC architecture](../architecture/images/FPro bus.jpg)
+![SoC architecture](../architecture/images/FPro_bus.jpg)
