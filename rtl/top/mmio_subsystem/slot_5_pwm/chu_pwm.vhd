@@ -84,7 +84,7 @@ begin
       end if;
    end process;
 
-   -- "prescale" counter
+   -- "prescaler" counter
    q_next <= (others=>'0') when q_reg=unsigned(dvsr_reg) else q_reg + 1;
    tick <= '1' when q_reg = 0 else '0';
 
