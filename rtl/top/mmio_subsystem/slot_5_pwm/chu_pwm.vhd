@@ -25,6 +25,7 @@ end chu_pwm;
 architecture arch of chu_pwm is
    type reg_file_type is array (W - 1 downto 0) of std_logic_vector(R downto 0);
    signal duty_2d_reg   : reg_file_type;
+
    signal wr_en, dvsr_en : std_logic;
    signal duty_array_en : std_logic;
    signal q_reg, q_next : unsigned(31 downto 0);
