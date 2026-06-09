@@ -1,27 +1,35 @@
 #include <stdint.h>
 
-#include "chu_gpi.h"
-#include "chu_gpo.h"
 #include "chu_io_map.h"
+#include "chu_pwm.h"
 
-gpo_core_t led_dev;
-gpi_core_t sw_dev;
+#define SYS_CLK_HZ 100000000u
 
 int main(void)
 {
-    uint32_t sw_value;
+    pwm_core_t pwm;
+    uint32_t dvsr;
 
-    // initialize peripherals
-    gpo_init(&led_dev, GPO_BASE_ADDR);
-    gpi_init(&sw_dev, GPI_BASE_ADDR);
+    pwm_init(&pwm, PWM_BASE);
+
+    /*
+     * 50 kHz PWM frequency
+     */
+    dvsr = pwm_calc_divisor(SYS_CLK_HZ, 50000u);
+    pwm_set_divisor(&pwm, dvsr);
+
+    /*
+     * Channel 0 -> 20%
+     * Channel 1 -> 40%
+     * Channel 2 -> 60%
+     */
+    pwm_set_duty_percent(&pwm, 0u, 20u);
+    pwm_set_duty_percent(&pwm, 1u, 40u);
+    pwm_set_duty_percent(&pwm, 2u, 60u);
 
     while (1)
     {
-        // read GPIO input
-        sw_value = gpi_read(&sw_dev);
-
-        // write value to GPIO output
-        gpo_write(&led_dev, sw_value);
+        /* nothing */
     }
 
     return 0;
