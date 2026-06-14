@@ -14,7 +14,12 @@ entity mcs_top_vanilla is
       rx       : in  std_logic;
       tx       : out std_logic;
       -- pwm
-      pwm_out  : out std_logic_vector(15 downto 0)
+      pwm_out  : out std_logic_vector(15 downto 0);
+      -- spi
+      spi_sclk : out std_logic;
+      spi_mosi : out std_logic;
+      spi_miso : in  std_logic;
+      spi_ss_n : out std_logic_vector(1 downto 0)
  
    );
 end mcs_top_vanilla;
@@ -114,9 +119,11 @@ begin
          led          => led,
          rx           => rx,
          tx           => tx,
-         pwm_out      => pwm_out
+         pwm_out      => pwm_out,
+         spi_sclk => spi_sclk,
+         spi_mosi => spi_mosi,
+         spi_miso => spi_miso,
+         spi_ss_n => spi_ss_n
       );
-
-end arch;
 
 end arch;
