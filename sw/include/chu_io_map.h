@@ -10,6 +10,9 @@
 #define S2_LED       2u
 #define S3_SW        3u
 
+#define S5_PWM       5u
+#define S6_SPI       6u
+
 #define SLOT_SIZE_REGS 32u
 #define SLOT_SIZE_BYTES (SLOT_SIZE_REGS * 4u)
 
@@ -20,5 +23,8 @@
 #define UART_BASE       get_slot_addr(BRIDGE_BASE, S1_UART1)
 #define LED_BASE get_slot_addr(BRIDGE_BASE, S2_LED)
 #define SW_BASE  get_slot_addr(BRIDGE_BASE, S3_SW)
+
+#define PWM_BASE  get_slot_addr(BRIDGE_BASE, S5_PWM)
+#define SPI_BASE get_slot_addr(BRIDGE_BASE, S6_SPI)
 
 #endif
