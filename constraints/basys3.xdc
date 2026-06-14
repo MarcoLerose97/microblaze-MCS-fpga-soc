@@ -102,3 +102,26 @@ set_property IOSTANDARD LVCMOS33 [get_ports {pwm_out[14]}]
 
 set_property PACKAGE_PIN C16 [get_ports {pwm_out[15]}]
 set_property IOSTANDARD LVCMOS33 [get_ports {pwm_out[15]}]
+
+
+
+## SPI on PMOD JC
+## JC1 -> SCLK
+set_property PACKAGE_PIN K17 [get_ports spi_sclk]
+set_property IOSTANDARD LVCMOS33 [get_ports spi_sclk]
+
+## JC2 -> MOSI
+set_property PACKAGE_PIN M18 [get_ports spi_mosi]
+set_property IOSTANDARD LVCMOS33 [get_ports spi_mosi]
+
+## JC3 -> MISO
+set_property PACKAGE_PIN N17 [get_ports spi_miso]
+set_property IOSTANDARD LVCMOS33 [get_ports spi_miso]
+
+## JC4 -> SS_N[0]
+set_property PACKAGE_PIN P18 [get_ports {spi_ss_n[0]}]
+set_property IOSTANDARD LVCMOS33 [get_ports {spi_ss_n[0]}]
+
+## JC7 -> SS_N[1]
+set_property PACKAGE_PIN L17 [get_ports {spi_ss_n[1]}]
+set_property IOSTANDARD LVCMOS33 [get_ports {spi_ss_n[1]}]
