@@ -77,6 +77,7 @@ The controller routes transactions to the selected slot according to the decoded
 | slot_2_gpo | GPIO output peripheral |
 | slot_3_gpi | GPIO input peripheral |
 | slot_5_pwm | PWM peripheral |
+| slot_6_spi | spi peripheral |
 
 ---
 
