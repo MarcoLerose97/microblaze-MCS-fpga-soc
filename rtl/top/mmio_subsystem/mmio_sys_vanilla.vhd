@@ -20,7 +20,12 @@ entity mmio_sys_vanilla is
       rx           : in  std_logic;
       tx           : out std_logic;
       -- pwm
-      pwm_out : out std_logic_vector(15 downto 0)
+      pwm_out : out std_logic_vector(15 downto 0);
+      -- spi
+      spi_sclk : out std_logic;
+     spi_mosi : out std_logic;
+     spi_miso : in  std_logic;
+     spi_ss_n : out std_logic_vector(1 downto 0)
    );
 end mmio_sys_vanilla;
 
@@ -131,10 +136,31 @@ begin
         pwm_out => pwm_out
     );
     
+    spi_slot6 : entity work.chu_spi_core
+   generic map(
+      S => 2
+   )
+   port map(
+      clk      => clk,
+      reset    => reset,
+
+      cs       => cs_array(S6_SPI),
+      write    => mem_wr_array(S6_SPI),
+      read     => mem_rd_array(S6_SPI),
+      addr     => reg_addr_array(S6_SPI),
+      rd_data  => rd_data_array(S6_SPI),
+      wr_data  => wr_data_array(S6_SPI),
+
+      spi_sclk => spi_sclk,
+      spi_mosi => spi_mosi,
+      spi_miso => spi_miso,
+      spi_ss_n => spi_ss_n
+   );
+    
 
    -- assign 0's to all unused slot rd_data signals
    rd_data_array(4) <= (others => '0');
-   gen_unused_slot : for i in 6 to 63 generate
+   gen_unused_slot : for i in 7 to 63 generate
       rd_data_array(i) <= (others => '0');
    end generate gen_unused_slot;
 end arch;
