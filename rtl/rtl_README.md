@@ -41,8 +41,9 @@ rtl/
 │                          │  
 │                          │ ── slot_5_pwm/
 │                          │       └── chu_pwm.vhd
-│                          │ 
-
+│                          │ ── slot_6_spi/
+│                          │         └── chu_spi.vhd
+│                          │                ├── spi_unit.vhd 
 ```
 
 ## Description
