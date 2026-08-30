@@ -21,6 +21,7 @@ The MMIO subsystem manages memory-mapped peripherals such as:
 - GPIO input
 - SPI
 - PWM
+- I2C
 
 An MMIO controller decodes addresses and routes read/write transactions to the selected peripheral slot.
 
