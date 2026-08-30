@@ -43,8 +43,11 @@ rtl/
 │                          │       └── chu_pwm.vhd
 │                          │ ── slot_6_spi/
 │                          │         └── chu_spi.vhd
-│                          │                ├── spi_unit.vhd 
-```
+│                          │                ├── spi_unit.vhd
+|                          |
+|                          | ── slot_7_i2c/
+|                          |          └── chu_i2c_core.vhd
+```                                         ├── i2c_master.vhd
 
 ## Description
 
