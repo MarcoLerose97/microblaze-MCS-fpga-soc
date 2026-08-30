@@ -15,12 +15,15 @@ entity mcs_top_vanilla is
       tx       : out std_logic;
       -- pwm
       pwm_out  : out std_logic_vector(15 downto 0);
-      -- spi
+       -- spi
       spi_sclk : out std_logic;
       spi_mosi : out std_logic;
       spi_miso : in  std_logic;
-      spi_ss_n : out std_logic_vector(1 downto 0)
- 
+      spi_ss_n : out std_logic_vector(1 downto 0);
+
+      -- i2c
+      i2c_scl : out std_logic;
+      i2c_sda : inout std_logic
    );
 end mcs_top_vanilla;
 
@@ -123,7 +126,9 @@ begin
          spi_sclk => spi_sclk,
          spi_mosi => spi_mosi,
          spi_miso => spi_miso,
-         spi_ss_n => spi_ss_n
+         spi_ss_n => spi_ss_n,
+         i2c_scl  => i2c_scl,
+         i2c_sda  => i2c_sda
       );
 
 end arch;
