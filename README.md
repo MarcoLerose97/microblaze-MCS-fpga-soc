@@ -3,12 +3,13 @@
 Custom FPGA SoC platform based on a MicroBlaze MCS soft-core processor.
 
 ## Features
-- Custom 48 bit TIMER peripheral
-- Custom UART peripheral
 - Custom GPO peripheral
 - Custom GPI peripheral
+- Custom 48 bit TIMER peripheral
 - Custom 16 Channels PWM peripheral
+- Custom UART peripheral
 - Custom SPI peripheral
+- Custom I2C peripheral
 - Memory mapped I/O
 - FIFO modules
 - Embedded software drivers
