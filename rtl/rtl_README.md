@@ -47,7 +47,10 @@ rtl/
 |                          |
 |                          | ── slot_7_i2c/
 |                          |          └── chu_i2c_core.vhd
-```                                         ├── i2c_master.vhd
+|                          |                 ├── i2c_master.vhd
+|                          |
+|                          |
+|                          |            
 
 ## Description
 
