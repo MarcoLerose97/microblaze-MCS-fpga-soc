@@ -13,6 +13,7 @@ package chu_io_map is
 
     constant S5_PWM       : integer := 5;
     constant S6_SPI       : integer := 6;
+    constant S7_SPI       : integer := 7;
 
 
 end package;
