@@ -160,7 +160,7 @@ begin
 
    -- assign 0's to all unused slot rd_data signals
    rd_data_array(4) <= (others => '0');
-   gen_unused_slot : for i in 7 to 63 generate
+   gen_unused_slot : for i in 8 to 63 generate
       rd_data_array(i) <= (others => '0');
    end generate gen_unused_slot;
 end arch;
