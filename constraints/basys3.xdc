@@ -125,3 +125,14 @@ set_property IOSTANDARD LVCMOS33 [get_ports {spi_ss_n[0]}]
 ## JC7 -> SS_N[1]
 set_property PACKAGE_PIN L17 [get_ports {spi_ss_n[1]}]
 set_property IOSTANDARD LVCMOS33 [get_ports {spi_ss_n[1]}]
+
+
+
+## I2C on PMOD JD
+## JD1 -> SCL
+set_property PACKAGE_PIN D4 [get_ports i2c_scl]
+set_property IOSTANDARD LVCMOS33 [get_ports i2c_scl]
+
+## JD2 -> SDA
+set_property PACKAGE_PIN D3 [get_ports i2c_sda]
+set_property IOSTANDARD LVCMOS33 [get_ports i2c_sda]
