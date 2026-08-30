@@ -59,3 +59,6 @@ rtl/
 - `slot_3_gpi/` → general-purpose input peripheral
 
 - `slot_5_pwm/` → pwm peripheral
+- `slot_6_pwm/` → spi peripheral
+- `slot_7_i2c/` → i2c peripheral
+
