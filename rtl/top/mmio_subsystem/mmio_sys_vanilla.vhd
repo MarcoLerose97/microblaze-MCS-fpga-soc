@@ -25,7 +25,11 @@ entity mmio_sys_vanilla is
       spi_sclk : out std_logic;
      spi_mosi : out std_logic;
      spi_miso : in  std_logic;
-     spi_ss_n : out std_logic_vector(1 downto 0)
+     spi_ss_n : out std_logic_vector(1 downto 0);
+
+      -- i2c
+      i2c_scl  : out std_logic;
+      i2c_sda  : inout std_logic
    );
 end mmio_sys_vanilla;
 
@@ -156,6 +160,22 @@ begin
       spi_miso => spi_miso,
       spi_ss_n => spi_ss_n
    );
+
+      i2c_slot7 : entity work.chu_i2c_core
+      port map(
+         clk     => clk,
+         reset   => reset,
+
+         cs      => cs_array(S7_I2C),
+         write   => mem_wr_array(S7_I2C),
+         read    => mem_rd_array(S7_I2C),
+         addr    => reg_addr_array(S7_I2C),
+         rd_data => rd_data_array(S7_I2C),
+         wr_data => wr_data_array(S7_I2C),
+
+         scl     => i2c_scl,
+         sda     => i2c_sda
+      );
     
 
    -- assign 0's to all unused slot rd_data signals
