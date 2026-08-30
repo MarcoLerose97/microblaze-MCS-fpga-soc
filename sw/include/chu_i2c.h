@@ -2,7 +2,7 @@
 #define I2C_CORE_H_INCLUDED
 
 #include <stdint.h>
-#include "chu_init.h"
+
 
 typedef struct {
     uint32_t base_addr;
