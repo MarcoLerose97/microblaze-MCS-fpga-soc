@@ -1,4 +1,5 @@
 #include "i2c_core.h"
+#include "chu_io_rw.h"
 
 void i2c_init(I2cCore *core, uint32_t core_base_addr)
 {
