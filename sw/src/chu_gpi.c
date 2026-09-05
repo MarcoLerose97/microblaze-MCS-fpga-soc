@@ -1,6 +1,8 @@
 #include "chu_gpi.h"
 #include "chu_io_rw.h"
 
+#define GPI_DATA_REG 0u
+
 void gpi_init(gpi_core_t *dev, uint32_t base_addr)
 {
     dev->base_addr = base_addr;
@@ -8,7 +10,7 @@ void gpi_init(gpi_core_t *dev, uint32_t base_addr)
 
 uint32_t gpi_read(gpi_core_t *dev)
 {
-    return io_read(dev->base_addr, 0u);
+    return io_read(dev->base_addr, GPI_DATA_REG);
 }
 
 uint32_t gpi_read_bit(gpi_core_t *dev, uint32_t bit_pos)
