@@ -26,5 +26,6 @@
 
 #define PWM_BASE  get_slot_addr(BRIDGE_BASE, S5_PWM)
 #define SPI_BASE get_slot_addr(BRIDGE_BASE, S6_SPI)
+#define I2C_BASE get_slot_addr(BRIDGE_BASE, S7_I2C)
 
 #endif
