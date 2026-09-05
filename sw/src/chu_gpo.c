@@ -1,6 +1,8 @@
 #include "chu_gpo.h"
 #include "chu_io_rw.h"
 
+#define GPO_DATA_REG 0u
+
 void gpo_init(gpo_core_t *dev, uint32_t base_addr)
 {
     dev->base_addr = base_addr;
@@ -10,7 +12,7 @@ void gpo_init(gpo_core_t *dev, uint32_t base_addr)
 void gpo_write(gpo_core_t *dev, uint32_t data)
 {
     dev->wr_data = data;
-    io_write(dev->base_addr, 0u, dev->wr_data);
+    io_write(dev->base_addr, GPO_DATA_REG, dev->wr_data);
 }
 
 void gpo_write_bit(gpo_core_t *dev, uint32_t bit_value, uint32_t bit_pos)
@@ -21,5 +23,5 @@ void gpo_write_bit(gpo_core_t *dev, uint32_t bit_value, uint32_t bit_pos)
         dev->wr_data &= ~(1u << bit_pos);
     }
 
-    io_write(dev->base_addr, 0u, dev->wr_data);
+    io_write(dev->base_addr, GPO_DATA_REG, dev->wr_data);
 }
