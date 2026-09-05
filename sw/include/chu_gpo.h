@@ -5,6 +5,7 @@
 
 typedef struct {
     uint32_t base_addr;
+    uint32_t wr_data;     // shadow register
 } gpo_core_t;
 
 void gpo_init(gpo_core_t *dev, uint32_t base_addr);
