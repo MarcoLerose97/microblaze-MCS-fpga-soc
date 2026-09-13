@@ -48,23 +48,19 @@ void uart_write_byte(uart_core_t *dev, uint8_t data)
     io_write(dev->base_addr, UART_TX_REG, (uint32_t)data);
 }
 
-uint8_t uart_read_byte(uart_core_t *dev)
+int uart_read_byte(uart_core_t *dev)
 {
-    uint32_t status;
-    uint8_t data;
+    uint32_t data;
 
-    while (uart_rx_empty(dev)) {
+    if (uart_rx_empty(dev)) {
+        return -1;
     }
 
-    status = uart_read_status(dev);
-    data = (uint8_t)(status & UART_RX_DATA_MASK);
+    data = uart_read_status(dev) & UART_RX_DATA_MASK;
 
-    /*
-     * Dummy write to remove one byte from RX FIFO.
-     */
     io_write(dev->base_addr, UART_RX_REMOVE_REG, 0u);
 
-    return data;
+    return (int)data;
 }
 
 void uart_write_string(uart_core_t *dev, const char *s)
