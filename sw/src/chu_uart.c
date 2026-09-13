@@ -48,19 +48,18 @@ void uart_write_byte(uart_core_t *dev, uint8_t data)
     io_write(dev->base_addr, UART_TX_REG, (uint32_t)data);
 }
 
-int uart_read_byte(uart_core_t *dev)
+uint8_t uart_read_byte(uart_core_t *dev)
 {
     uint32_t data;
 
-    if (uart_rx_empty(dev)) {
-        return -1;
+    while (uart_rx_empty(dev)) {
     }
 
     data = uart_read_status(dev) & UART_RX_DATA_MASK;
 
     io_write(dev->base_addr, UART_RX_REMOVE_REG, 0u);
 
-    return (int)data;
+    return (uint8_t)data;
 }
 
 void uart_write_string(uart_core_t *dev, const char *s)
