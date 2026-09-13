@@ -5,6 +5,8 @@
 
 #define BRIDGE_BASE 0xC0000000u
 
+#define SYS_CLK_FREQ 100
+
 #define S0_SYS_TIMER 0u
 #define S1_UART1     1u
 #define S2_LED       2u
