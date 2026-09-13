@@ -1,36 +1,30 @@
 #include <stdint.h>
+#include "chu_uart.h"
 
-#include "chu_io_map.h"
-#include "chu_pwm.h"
-
-#define SYS_CLK_HZ 100000000u
+#define UART_BASE_ADDR  0xC0000200u   // Metti il vero indirizzo della UART
+#define SYS_CLK_HZ      100000000u
+#define BAUD_RATE       9600u
 
 int main(void)
 {
-    pwm_core_t pwm;
-    uint32_t dvsr;
+    uart_core_t uart;
+    uint8_t data;
 
-    pwm_init(&pwm, PWM_BASE);
+    /* Inizializzazione */
+    uart_init(&uart, UART_BASE_ADDR);
 
-    /*
-     * 50 kHz PWM frequency
-     */
-    dvsr = pwm_calc_divisor(SYS_CLK_HZ, 50000u);
-    pwm_set_divisor(&pwm, dvsr);
+    /* Imposta il baud rate */
+    uart_set_baud_rate(&uart, SYS_CLK_HZ, BAUD_RATE);
 
-    /*
-     * Channel 0 -> 20%
-     * Channel 1 -> 40%
-     * Channel 2 -> 60%
-     */
-    pwm_set_duty_percent(&pwm, 0u, 20u);
-    pwm_set_duty_percent(&pwm, 1u, 40u);
-    pwm_set_duty_percent(&pwm, 2u, 60u);
+    /* Trasmette una stringa iniziale */
+    uart_write_string(&uart, "UART ready\r\n");
 
     while (1)
     {
-        /* nothing */
-    }
+        /* Rimane qui finché non riceve un byte */
+        data = uart_read_byte(&uart);
 
-    return 0;
+        /* Ritrasmette il byte ricevuto */
+        uart_write_byte(&uart, data);
+    }
 }
