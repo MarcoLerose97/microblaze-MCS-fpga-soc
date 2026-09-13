@@ -14,6 +14,7 @@
 
 #define S5_PWM       5u
 #define S6_SPI       6u
+#define S7_I2C       7u
 
 #define SLOT_SIZE_REGS 32u
 #define SLOT_SIZE_BYTES (SLOT_SIZE_REGS * 4u)
