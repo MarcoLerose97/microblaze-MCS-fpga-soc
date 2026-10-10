@@ -55,10 +55,11 @@ UART_BASE_ADDR = 0xC0000080
 ```text
 offset 0 : RX data and status register (read)
 
-         31                10 9          8 7              0
-         +------------------+-------------+----------------+
-         |     reserved     | TX_FULL     | RX_DATA[7:0]  |
-         +------------------+-------------+----------------+
+          31                  10  9       8       7          0
+         +----------------------+-------+-------+-------------+
+         |       RESERVED       |TX_FULL|RX_EMPTY| RX_DATA[7:0]|
+         +----------------------+-------+-------+-------------+
+                  22 bit          1 bit   1 bit      8 bit
 
 
 offset 1 : Baud divisor register (write)
