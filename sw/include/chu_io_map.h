@@ -1,11 +1,11 @@
-// Il file chu_io_map.h definisce la mappa di memoria delle periferiche del sistema SoC implementato su 
+/* Il file chu_io_map.h definisce la mappa di memoria delle periferiche del sistema SoC implementato su 
 FPGA. Le periferiche, come timer, UART, LED, switch, PWM, SPI e I2C, sono associate a specifici slot di
 Indirizzamento all'interno di uno spazio di memoria condiviso, il cui indirizzo base è 0xC0000000.
 Ogni slot occupa 128 byte, equivalenti a 32 registri da 32 bit. Attraverso la macro get_slot_addr(), viene
 calcolato automaticamente l'indirizzo base di ciascuna periferica in funzione dello slot assegnato.
 In questo modo, il firmware eseguito dal processore MicroBlaze può accedere ai registri delle periferiche
 hardware mediante indirizzi di memoria, senza dover conoscere direttamente i dettagli della loro
-implementazione VHDL. //
+implementazione VHDL. */
 
 
 #ifndef CHU_IO_MAP_H
